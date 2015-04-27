@@ -19,7 +19,6 @@ Slime::Slime(){
 	cMP = mMP;
     spd = 2;
 	elm = EARTH;
-	attList.push_back(Attack());
 }
 
 #endif

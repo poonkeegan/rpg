@@ -24,9 +24,6 @@ Player::Player (string n){
 	cMP = mMP;
     spd = 3;
 	elm = REGULAR;
-	attList.push_back(Attack());
-	attList.push_back(PowerStrike());
-	attList.push_back(EnergyBolt());
 }
 
 int Player::getAtt(){
