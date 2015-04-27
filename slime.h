@@ -1,6 +1,8 @@
 #ifndef SLIME_H
 #define SLIME_H
+
 using namespace std;
+
 class Slime: public Creature
 {
 	public:

@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 using namespace std;
+
 class Player: public Creature 
 {
 	protected:
@@ -9,6 +11,7 @@ class Player: public Creature
 	int level;
     public:
     Player(string n);
+	int getAtt() override;
 };
 
 Player::Player (string n){
@@ -21,6 +24,10 @@ Player::Player (string n){
 	cMP = mMP;
     spd = 3;
 	elm = REGULAR;
+}
+
+int Player::getAtt(){
+		return 0;
 }
 
 #endif

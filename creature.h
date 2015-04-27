@@ -1,10 +1,9 @@
 #ifndef CREATURE_H
 #define CREATURE_H
+
 using namespace std;
-enum Element {REGULAR	= 0,
-				FIRE	= 1,
-				WATER	= 2, 
-				EARTH	= 3};
+
+
 class Creature
 {
 	protected:
@@ -15,6 +14,7 @@ class Creature
 	int mMP;
     int spd;
     int def;
+	vector<Attacks> attList;
     string name;
     Element elm;
     public:
@@ -73,6 +73,7 @@ void Creature::list (){
 		cout << endl;
 }
 
+//Accessors
 string Creature::getName(){
 	return name;
 }

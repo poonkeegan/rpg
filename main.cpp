@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <vector>
+#include "attacks.h"
 #include "creature.h"
 #include "player.h"
 #include "slime.h"
-
 void attackPhase(Creature & first, Creature & second){
 	if(first.Alive())
 		first.fight(second);
