@@ -14,11 +14,13 @@ class Creature
 	int mMP;
     int spd;
     int def;
+	int attMode;
 	vector<Attacks> attList;
     string name;
     Element elm;
     public:
-	virtual bool Alive();
+	bool Alive();
+	bool canAttack();
 	virtual int getAtt();
 	virtual int getSpd();
 	virtual int getDef();
@@ -27,26 +29,55 @@ class Creature
 	virtual int getMHP(); //maximum hp
 	virtual int getCMP(); //current mp
 	virtual int getMMP(); //maximum mp
-	virtual string getName();
-	virtual void fight(Creature & c);
+	string getName();
+	void fight(Creature & c);
 	virtual void takeDmg(int damage, Element element);
+	virtual void useMP(int amount);
 	virtual void list();
-    
+    Creature();
 };
 
+Creature::Creature(){
+	att = 1;
+	mHP = 1;
+	cHP = mHP;
+	mMP = 0;
+	cMP = mMP;
+	spd = 0;
+	def = 0;
+	attMode = 0;
+	attList.push_back(Attack());
+	elm = REGULAR;
+	name = "kelp";
+}
+
 void Creature::takeDmg(int damage, Element element){
-	int temp = damage - getDef();
-	cHP -= temp;
-	if(getCHP() < 0)
-		cHP = 0;
-	cout << name << " takes " << temp << " damage " << endl
-		<< name << " is at " << getCHP() << " health " << endl;
-	
+	if(damage > 0){
+		int temp = damage - getDef();
+		cHP -= temp;
+		if(getCHP() < 0)
+			cHP = 0;
+		cout << name << " takes " << temp << " damage " << endl
+			<< name << " is at " << getCHP() << " health " << endl;
+	}
+}
+bool Creature::canAttack(){
+	if(cMP < attList[attMode].mpCost)
+		return false;
+	return true;
+}
+
+void Creature::useMP(int amount){
+	cMP -= amount;
+	if(cMP < 0)
+		cMP = 0;
 }
 
 void Creature::fight (Creature & c){
 	cout << name << " attacks " << c.name << endl;
 	c.takeDmg(getAtt(), elm);
+	takeDmg(attList[attMode].hpCost, REGULAR);
+	useMP(attList[attMode].mpCost);
 }
 
 void Creature::list (){
@@ -78,7 +109,12 @@ string Creature::getName(){
 	return name;
 }
 int Creature::getAtt(){
-	return att;
+	int attackPower = 0;
+	if(attList[attMode].magic != true)
+		attackPower = att + attList[attMode].power;
+	else
+		attackPower = attList[attMode].power;
+	return attackPower;
 }
 int Creature::getSpd(){
 	return spd;
