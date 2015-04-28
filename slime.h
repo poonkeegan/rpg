@@ -15,11 +15,11 @@ Slime::Slime(){
     def = 1;
     mHP = 5;
 	cHP = mHP;
-	mMP = 0;
+	mMP = 3;
 	cMP = mMP;
     spd = 2;
 	elm = EARTH;
-	attList.push_back(Attack());
+	xp = 20;
 }
 
 #endif

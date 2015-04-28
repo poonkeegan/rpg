@@ -14,13 +14,16 @@ class Creature
 	int mMP;
     int spd;
     int def;
+	int xp; //awarded xp on kill
 	int attMode;
+	bool defending;
 	vector<Attacks> attList;
     string name;
     Element elm;
     public:
 	bool Alive();
 	bool canAttack();
+	vector<Attacks> attacks();
 	virtual int getAtt();
 	virtual int getSpd();
 	virtual int getDef();
@@ -30,8 +33,12 @@ class Creature
 	virtual int getCMP(); //current mp
 	virtual int getMMP(); //maximum mp
 	string getName();
+	int getXP();
 	void fight(Creature & c);
-	virtual void takeDmg(int damage, Element element);
+	void setDef(bool defense);
+	bool isDefending();
+	bool setAttMode(int i);
+	virtual void takeDmg(int damage, Element element, bool magic);
 	virtual void useMP(int amount);
 	virtual void list();
     Creature();
@@ -49,11 +56,16 @@ Creature::Creature(){
 	attList.push_back(Attack());
 	elm = REGULAR;
 	name = "kelp";
+	defending = false;
 }
 
-void Creature::takeDmg(int damage, Element element){
+void Creature::takeDmg(int damage, Element element, bool magic){
 	if(damage > 0){
-		int temp = damage - getDef();
+		int temp = damage;
+		if(!magic)
+			temp -= getDef();
+		if(temp < 0)
+			temp = 0;
 		cHP -= temp;
 		if(getCHP() < 0)
 			cHP = 0;
@@ -61,6 +73,7 @@ void Creature::takeDmg(int damage, Element element){
 			<< name << " is at " << getCHP() << " health " << endl;
 	}
 }
+
 bool Creature::canAttack(){
 	if(cMP < attList[attMode].mpCost)
 		return false;
@@ -68,21 +81,31 @@ bool Creature::canAttack(){
 }
 
 void Creature::useMP(int amount){
-	cMP -= amount;
-	if(cMP < 0)
-		cMP = 0;
+	if(amount > 0){
+		cMP -= amount;
+		cout << name << " used " << amount << " MP " << endl
+			<< name << " is at " << getCMP() << " MP " << endl;
+		if(cMP < 0)
+			cMP = 0;
+	}
 }
 
 void Creature::fight (Creature & c){
-	cout << name << " attacks " << c.name << endl;
-	c.takeDmg(getAtt(), elm);
-	takeDmg(attList[attMode].hpCost, REGULAR);
-	useMP(attList[attMode].mpCost);
+	if(!defending){
+		if(c.isDefending()){
+			cout<< c.getName() << " guards" << endl;
+		}
+		cout << name << " attacks " << c.name << endl;
+		c.takeDmg(getAtt(), elm, attList[attMode].magic);
+		takeDmg(attList[attMode].hpCost, REGULAR, true);
+		useMP(attList[attMode].mpCost);
+	}
 }
 
 void Creature::list (){
 	cout <<"NAME:" << name << endl 
 		<<"HP:" << getCHP() << "/" << getMHP() << endl
+		<<"MP:" << getCMP() << "/" << getMMP() << endl
 		<<"ATT:" << att << endl
 		<<"DEF:" << def << endl
 		<<"SPD:" << spd << endl
@@ -103,7 +126,17 @@ void Creature::list (){
 		}
 		cout << endl;
 }
-
+//Mutators
+void Creature::setDef(bool defense){
+	defending = defense;
+}
+bool Creature::setAttMode(int i){
+	if(0 < i && i <= attList.size()){
+		attMode = i - 1;
+		return true;
+	}
+	return false;
+}
 //Accessors
 string Creature::getName(){
 	return name;
@@ -120,7 +153,10 @@ int Creature::getSpd(){
 	return spd;
 }
 int Creature::getDef(){
-	return def;
+	int defense = def;
+	if(defending)
+		defense += 5;
+	return defense;
 }
 int Creature::getElm(){
 	return elm;
@@ -136,6 +172,15 @@ int Creature::getCMP(){
 }
 int Creature::getMMP(){
 	return mMP;
+}
+int Creature::getXP(){
+	return xp;
+}
+vector<Attacks> Creature::attacks(){
+	return attList;
+}
+bool Creature::isDefending(){
+	return defending;
 }
 bool Creature::Alive(){
 	if(getCHP() > 0)

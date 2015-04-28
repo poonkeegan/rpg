@@ -23,6 +23,7 @@ struct Attack: public Attacks
 		mpCost = 0;
 		elm = REGULAR;
 		magic = false;
+		name = "Regular Attack";
 	}
 };
 struct PowerStrike: public Attacks
@@ -33,6 +34,7 @@ struct PowerStrike: public Attacks
 		mpCost = 3;
 		elm = REGULAR;
 		magic = false;
+		name = "Power Strike";
 	}
 };
 struct SlashBlast: public Attacks
@@ -43,6 +45,7 @@ struct SlashBlast: public Attacks
 		mpCost = 2;
 		elm = REGULAR;
 		magic = false;
+		name = "Slash Blast";
 	}
 };
 struct EnergyBolt: public Attacks
@@ -53,6 +56,7 @@ struct EnergyBolt: public Attacks
 		mpCost = 2;
 		elm = REGULAR;
 		magic = true;
+		name = "Energy Bolt";
 	}
 };
 struct MagicClaw: public Attacks
@@ -63,6 +67,7 @@ struct MagicClaw: public Attacks
 		mpCost = 5;
 		elm = REGULAR;
 		magic = true;
+		name = "Magic Claw";
 	}
 };
 struct DragonFury: public Attacks
@@ -73,6 +78,7 @@ struct DragonFury: public Attacks
 		mpCost = 5;
 		elm = REGULAR;
 		magic = false;
+		name = "Dragon Fury";
 	}
 };
 struct Genesis: public Attacks
@@ -83,6 +89,7 @@ struct Genesis: public Attacks
 		mpCost = 12;
 		elm = REGULAR;
 		magic = true;
+		name = "Genesis";
 	}
 };
 struct Blizzard: public Attacks
@@ -93,6 +100,7 @@ struct Blizzard: public Attacks
 		mpCost = 12;
 		elm = WATER;
 		magic = true;
+		name = "Blizzard";
 	}
 };
 struct MeteorShower: public Attacks
@@ -103,6 +111,7 @@ struct MeteorShower: public Attacks
 		mpCost = 12;
 		elm = EARTH;
 		magic = true;
+		name = "Meteor Shower";
 	}
 };
 struct FlameGear: public Attacks
@@ -113,6 +122,7 @@ struct FlameGear: public Attacks
 		mpCost = 12;
 		elm = FIRE;
 		magic = true;
+		name = "Flame Gear";
 	}
 };
 #endif
