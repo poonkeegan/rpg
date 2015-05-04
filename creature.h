@@ -69,8 +69,9 @@ void Creature::takeDmg(int damage, Element element, bool magic){
 		cHP -= temp;
 		if(getCHP() < 0)
 			cHP = 0;
-		cout << name << " takes " << temp << " damage " << endl
-			<< name << " is at " << getCHP() << " health " << endl;
+		
+		cout << name << " takes " << temp << " damage " << endl;
+		cout << name << " is at " << getCHP() << " health " << endl;
 	}
 }
 
@@ -83,8 +84,8 @@ bool Creature::canAttack(){
 void Creature::useMP(int amount){
 	if(amount > 0){
 		cMP -= amount;
-		cout << name << " used " << amount << " MP " << endl
-			<< name << " is at " << getCMP() << " MP " << endl;
+		cout << name << " used " << amount << " MP " << endl;
+		cout << name << " is at " << getCMP() << " MP " << endl;
 		if(cMP < 0)
 			cMP = 0;
 	}

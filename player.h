@@ -9,10 +9,12 @@ class Player: public Creature
 	int cExp;	//current exp
 	int rExp;	//required exp for level
 	int level;
+	vector<Item> inventory();
     public:
     Player(string n);
 	void gainXP(int amount);
 	void list() override;
+	void useItem();
 	//int getAtt() override; Create when weapons system is implemented
 };
 
@@ -22,7 +24,7 @@ Player::Player (string n){
     def = 1;
     mHP = 20;
 	cHP = mHP;
-	mMP = 20;
+	mMP = 5;
 	cMP = mMP;
     spd = 3;
 	level = 1;
@@ -36,16 +38,15 @@ Player::Player (string n){
 void Player::gainXP(int amount){
 	cExp += amount;
 	cout << "You have gained " << amount << " experience points!" << endl; 
-	if(cExp >= rExp){
+	while(cExp >= rExp){
 		level++;
 		cExp -= rExp;
-		cout << rExp << endl;
 		rExp = pow(2.0,((level+30)/6.0))-25;
-		cout << rExp << "Congratulations "<< name << "! You have leveled up!"<< endl;
+		cout << "Congratulations "<< name << "! You have leveled up!"<< endl;
 		int temp = rand() % 10;
 		mHP += temp;
 		cout << "Your Max HP has gone up by " << temp << endl;
-		temp = rand() % 10;
+		temp = rand() % 4;
 		mMP += temp;
 		cout << "Your Max MP has gone up by " << temp << endl;
 		temp = rand() % 4;
@@ -87,6 +88,9 @@ void Player::list (){
 				break;
 		}
 		cout << endl;
+}
+
+void Player::useItem(){
 }
 
 #endif

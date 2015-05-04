@@ -4,21 +4,27 @@
 #include <vector>
 #include <cmath>
 #include <ctime>
+#include "windows.h"
+#include "methods.h"
 #include "attacks.h"
+#include "item.h"
 #include "creature.h"
 #include "player.h"
-#include "slime.h"
-#include "methods.h"
+#include "enemy.h"
+#include "battle.h"
+
 using namespace std;
 
 int main()
 {
-	srand(time(0));
+	
+	srand(time(NULL));
 	string input;
     cout << "What is your name" << endl;
     getline (cin, input);
 	cout << "Hello " << input << "!" << endl;
 	Player player (input);
+	
 	cout << "Press Enter to start your quest into the depths of Orbis Tower" << endl;
 	cin.ignore();
 	int floor = 0;
@@ -33,15 +39,21 @@ int main()
 		}
 		char command = getFirstChar();
 		switch(command){
-			case 'e':{
+			case 'e':{ //get random event
 				int chance = rand() % 100;
-				if(between(chance, 0, 90)){
-					Slime slime;
-					battle(player, slime);
+				Creature enemy;
+				if(between(chance, 0, 70)){
+					enemy = Slime();
+				}else if(between(chance, 70, 90)){
+					enemy = Boar();
 				}
-				else if(between(chance, 90, 100)){
+				battle(player, enemy);
+				if(between(chance, 90, 100) && !floorFound){
 					cout << "You found the staircase" << endl;
 					floorFound = true;
+				}else if(between(chance, 90, 100)){
+					MetalSlime metalSlime;
+					battle(player, metalSlime);
 				}
 			}break;
 			case 'l':
@@ -71,6 +83,14 @@ int main()
 		}
 		cout << "Press Enter to continue" << endl;
 		cin.ignore();
+	}
+	
+	Zakum zakum;
+	battle(player, zakum);
+	if(!player.Alive()){
+		cout << "Game Over! Press Enter to exit" << endl;
+		cin.ignore();
+		return 0;
 	}
 	cout << "Congratulations! You have made it through the tower!" << endl;
     return 0;
